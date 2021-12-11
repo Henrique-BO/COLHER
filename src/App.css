@@ -335,6 +335,10 @@ button {
   /* margin-bottom: 10vh; */
 }
 
+button.selected {
+  background-color: var(--roxo-claro);
+}
+
 button:hover{
   background-color: #c66f3a;
   color: #d7d7d7;

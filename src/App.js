@@ -81,9 +81,10 @@ function PedidosTable(props) {
 }
 
 function format_time(time_string) {
+  let time = new Date(time_string);
   let formatted = "";
   if (time_string) {
-    formatted = time_string.slice(8,10)+'/'+time_string.slice(5,7)+' às '+time_string.slice(11,16);
+    formatted = `${time.getDate()}/${time.getMonth()}/${time.getFullYear()} às ${time.getHours()}h${time.getMinutes()}`;
   }
   return formatted;
 }
@@ -121,16 +122,15 @@ class App extends React.Component {
     let pedidos_periodo;
     if (periodo === "Sempre") {
       pedidos_periodo = this.state.pedidos;
-      this.setState({ pedidos_periodo: pedidos_periodo })
-    } else if (periodo == "Essa semana") {
-      let today = new Date();
-      let today_string = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate()-7);
-      pedidos_periodo = this.state.pedidos.filter((pedido) => pedido.time_realizado.slice(0,10) <= today_string);
-    } else if (periodo == "Hoje") {
-      let today = new Date();
-      let today_string = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate());
-      pedidos_periodo = this.state.pedidos.filter((pedido) => pedido.time_realizado.slice(0,10) === today_string);
-    }
+    } else if (periodo === "Essa semana") {
+      let now = new Date();
+      let hoje = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      let semana_passada = new Date(hoje - 7*24*60*60*1000);
+      pedidos_periodo = this.state.pedidos.filter((pedido) => new Date(pedido.time_realizado) - semana_passada > 0);
+    } else if (periodo === "Hoje") {
+      let now = new Date();
+      let hoje = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      pedidos_periodo = this.state.pedidos.filter((pedido) => new Date(pedido.time_realizado) - hoje > 0);    }
     this.setState({ pedidos_periodo: pedidos_periodo, periodo: periodo })
   }
 
@@ -152,10 +152,16 @@ class App extends React.Component {
         <main id="container-principal">
           <h1>GARFO - Dashboard</h1>
 
-          <Button onClick={() => this.onClick("Sempre")}>Sempre</Button>
-          <Button onClick={() => this.onClick("Essa semana")}>Essa semana</Button>
-          <Button onClick={() => this.onClick("Hoje")}>Hoje</Button>
-          <p>Período selecionado: {this.state.periodo}</p>
+          <Button onClick={() => this.onClick("Sempre")} className={this.state.periodo === "Sempre" ? "selected" : null}>
+            Sempre
+          </Button>
+          <Button onClick={() => this.onClick("Essa semana")} className={this.state.periodo === "Essa semana" ? "selected" : null}>
+            Essa semana
+          </Button>
+          <Button onClick={() => this.onClick("Hoje")} className={this.state.periodo === "Hoje" ? "selected" : null}>
+            Hoje
+          </Button>
+
           <Resumo pedidos_periodo={pedidos_periodo}/>
           <PedidosTable pedidos_periodo={pedidos_periodo}/>
         </main>
