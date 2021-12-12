@@ -1,4 +1,5 @@
 import './App.css';
+import {ReactComponent as ReactLogo} from './logo.svg';
 import React from 'react';
 
 
@@ -24,7 +25,7 @@ function Resumo(props) {
   return (
     <div className="Resumo">
       <h2>Resumo</h2>
-      <div id="button-container">
+      <div id="container-resumo">
 
         <div class="card">
           <h3>Receita:</h3>
@@ -119,18 +120,21 @@ class App extends React.Component {
   }
 
   onClick(periodo) {
-    let pedidos_periodo;
-    if (periodo === "Sempre") {
-      pedidos_periodo = this.state.pedidos;
-    } else if (periodo === "Essa semana") {
-      let now = new Date();
-      let hoje = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      let semana_passada = new Date(hoje - 7*24*60*60*1000);
-      pedidos_periodo = this.state.pedidos.filter((pedido) => new Date(pedido.time_realizado) - semana_passada > 0);
-    } else if (periodo === "Hoje") {
-      let now = new Date();
-      let hoje = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      pedidos_periodo = this.state.pedidos.filter((pedido) => new Date(pedido.time_realizado) - hoje > 0);    }
+    let pedidos_periodo = null;
+    if (this.state.pedidos) {
+      if (periodo === "Sempre") {
+        pedidos_periodo = this.state.pedidos;
+      } else {
+        let now = new Date();
+        let hoje = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        if (periodo === "Essa semana") {
+          let semana_passada = new Date(hoje - 7*24*60*60*1000);
+          pedidos_periodo = this.state.pedidos.filter((pedido) => new Date(pedido.time_realizado) - semana_passada > 0);
+        } else if (periodo === "Hoje") {
+          pedidos_periodo = this.state.pedidos.filter((pedido) => new Date(pedido.time_realizado) - hoje > 0);
+        }
+      }
+    }
     this.setState({ pedidos_periodo: pedidos_periodo, periodo: periodo })
   }
 
@@ -146,21 +150,21 @@ class App extends React.Component {
 
     return (
       <div className="App" id="body_roxo">
-        <header id="cabecalho-principal">
-        </header>
-
         <main id="container-principal">
-          <h1>GARFO - Dashboard</h1>
+          <ReactLogo/>
+          <h1>GARFO<br/>Dashboard</h1>
 
-          <Button onClick={() => this.onClick("Sempre")} className={this.state.periodo === "Sempre" ? "selected" : null}>
-            Sempre
-          </Button>
-          <Button onClick={() => this.onClick("Essa semana")} className={this.state.periodo === "Essa semana" ? "selected" : null}>
-            Essa semana
-          </Button>
-          <Button onClick={() => this.onClick("Hoje")} className={this.state.periodo === "Hoje" ? "selected" : null}>
-            Hoje
-          </Button>
+          <div id="button-container">
+            <Button onClick={() => this.onClick("Sempre")} className={this.state.periodo === "Sempre" ? "selected" : null}>
+              Sempre
+            </Button>
+            <Button onClick={() => this.onClick("Essa semana")} className={this.state.periodo === "Essa semana" ? "selected" : null}>
+              Essa semana
+            </Button>
+            <Button onClick={() => this.onClick("Hoje")} className={this.state.periodo === "Hoje" ? "selected" : null}>
+              Hoje
+            </Button>
+          </div>
 
           <Resumo pedidos_periodo={pedidos_periodo}/>
           <PedidosTable pedidos_periodo={pedidos_periodo}/>

@@ -1,42 +1,3 @@
-/* .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
-
 :root {
   --roxo-escuro: #632BAB;
   --roxo-claro: #B299D1;
@@ -60,14 +21,17 @@
   box-sizing: border-box;
 }
 
+html, body, #root {
+  height: 100%;
+}
+
 /* Layout do body dos templates base  */
 
 #body_roxo {
   font-size: 18px;
   background-color: var(--roxo-escuro);
-  overflow-x: hidden;
-  overflow-y: hidden;
-  margin: 0;
+  overflow-y: scroll;
+  height: 100%;
 }
 
 #body_cinza {
@@ -99,11 +63,11 @@
 /* Layout dos blocos com id="container"  */
 
 #container-principal {
-  height: 95vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 10vh 10vw;
 }
 
 #container-central {
@@ -148,7 +112,11 @@
 
 #button-container {
   display: flex;
-  align-content: center;
+  /* align-content: center; */
+  /* justify-items: center; */
+  justify-content: space-evenly;
+  margin: 5vh 0 0 0;
+  width: 70%;
 }
 
 #button-container a{
@@ -162,10 +130,10 @@
   justify-content: space-around;
   align-items: center;
   align-content: center;
-
-  width: 35vh;
-  height: 24vh;
-  font-size: 24px;
+  font-size: 18px;
+  width: 100%;
+  flex-grow: 1;
+  flex-basis: 0;
 }
 
 #button-container button img{
@@ -176,57 +144,66 @@
   box-shadow: none;
 }
 
+.Resumo, .PedidosTable {
+  width: 100%;
+}
+
+.PedidosTable {
+  overflow-x: auto;
+}
+
+.PedidosTable table {
+  color: var(--preto);
+  background-color: var(--roxo-claro);
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+}
+
+.PedidosTable th, td {
+  padding: 15px;
+  text-align: center;
+}
+
+.PedidosTable tr:nth-child(even) {
+  background-color: var(--cinza-claro);
+}
+
+.PedidosTable th {
+  background-color: var(--laranja-escuro);
+}
+
+#container-resumo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+@media only screen and (max-width:629px) {
+  #container-resumo {
+    flex-direction: column;
+  }
+}
+
 /* Layout dos cards */
 
 .card {
   display: flex;
-  align-content: center;
+  flex-direction: column;
 
   background-color: var(--branco);
   color: var(--cinza-mais-escuro);
   box-shadow: var(--sombra-escura);
   border-radius: 42px;
 
-  padding: 3vh;
-  width: 40vh;
-  max-height: 20vh;
-  margin-bottom: 20px;
+  padding: 0 5vw;
+  margin: 2vh 5vw;
+  flex-grow: 1;
+  flex-basis: 0;
 }
 
-#item-name {
-  font-size: 14px;
-  font-weight: bold;
-  text-transform: uppercase; 
-  margin: 0;
-  display: grid;
-  overflow-y:auto;
-}
-
-.card form {
-  justify-content: center;
-  margin-left: auto;
-  padding: 0;
-}
-
-.card form button {
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  
-  height: 50px;
-  width: 50px;
-  border-radius: 100%;
-  background-color: var(--cinza-escuro);
-  box-shadow: var(--sombra-clara);
-  padding: 5px;
-  margin: 0;
-  border: 0;
-}
-
-.card form button img {
-  object-fit: none;
-  border-radius: 0;
-  box-shadow: none;
+.card p {
+  margin: 0 0 15px 0;
 }
 
 /* Layout de blocos gerais com id */
@@ -267,9 +244,14 @@
 }
 
 #body_roxo h1 {
-  text-transform: uppercase;
   color: var(--laranja-escuro);
   font-size: 32px;
+  text-align: center;
+}
+
+#body_roxo h2 {
+  color: var(--laranja-escuro);
+  font-size: 28px;
 }
 
 /* Layout de blocos gerais sem id */
@@ -331,12 +313,16 @@ button {
   border-radius: 42px;
   padding: 16px 24px;
   box-shadow: var(--sombra-escura);
-  margin-top: 6vh;
-  /* margin-bottom: 10vh; */
+  margin: 0 3vw;
 }
 
 button.selected {
   background-color: var(--roxo-claro);
+}
+
+button.selected:hover {
+  background-color: var(--roxo-claro);
+  color: var(--branco);
 }
 
 button:hover{
