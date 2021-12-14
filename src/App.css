@@ -247,6 +247,14 @@ html, body, #root {
   color: var(--laranja-escuro);
   font-size: 32px;
   text-align: center;
+  margin-bottom: 0;
+}
+
+#body_roxo #subtitle {
+  color: var(--laranja-escuro);
+  font-size: 18px;
+  text-align: center;
+  margin-top: 0;
 }
 
 #body_roxo h2 {

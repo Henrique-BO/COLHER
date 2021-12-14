@@ -151,8 +151,16 @@ class App extends React.Component {
     return (
       <div className="App" id="body_roxo">
         <main id="container-principal">
-          <ReactLogo/>
-          <h1>GARFO<br/>Dashboard</h1>
+          <div id="img-logo">
+            <ReactLogo style={{
+            resizeMode: "cover",
+            borderRadius: "50%",
+          }}/>
+            
+          </div>
+          
+          <h1>COLHER</h1>
+          <h3 id="subtitle"> O DASHBOARD DO SISTEMA GARFO</h3>
 
           <div id="button-container">
             <Button onClick={() => this.onClick("Sempre")} className={this.state.periodo === "Sempre" ? "selected" : null}>
